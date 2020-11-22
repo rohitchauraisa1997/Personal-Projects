@@ -123,12 +123,9 @@ if __name__ == "__main__":
     print_sudoku_board(sample_board)
     execute(sample_board)
     print("++++++++++++++++++++++++++\n\n\n\n\n\n")
-    print("22222222222222")
     print_sudoku_board(sample_board)
     for i in range(10):
         for j in range(10):
             print((i,j),end = " ")
             if j == 9:
                 print("\n")
-                print("new line")
-                print("again")
