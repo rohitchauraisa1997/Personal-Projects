@@ -130,3 +130,4 @@ if __name__ == "__main__":
             if j == 9:
                 print("\n")
                 print("new line")
+                print("again")
