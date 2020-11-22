@@ -125,4 +125,5 @@ if __name__ == "__main__":
     print("++++++++++++++++++++++++++\n\n\n\n\n\n")
     print_sudoku_board(sample_board)
     for i in range(10):
-        print(i)
+        for j in range(10):
+            print((i,j))
