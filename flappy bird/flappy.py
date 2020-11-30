@@ -3,7 +3,8 @@ import os
 import random
 import pygame
 import neat
-
+import os
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 WIN_WIDTH = 600
 WIN_HEIGHT = 800
 print("********")
@@ -83,5 +84,69 @@ class Bird:
 
         self.y = self.y + d
 
-        if d<0 or self.y < slef.height + 50:
-            
+        if d<0 or self.y < self.height + 50:
+            # tilting the bird upwards
+            # we check if the position of bird is
+            # above the position where bird jumped from
+            # if it is then it means that we still r 
+            # moving upwards so dont start falling down yet
+            # as soon as we get below the point where we jumped from
+            # we can start tilting the bird downwards.
+            if self.tilt < self.MAX_ROTATION:
+                # so rather than moving it up slowly
+                # we can instantly change the tilt because 
+                # tilt isnt that big
+                self.tilt = self.MAX_ROTATION
+        else:
+            #tilting the bird downwards
+            if self.tilt > -90:
+                self.tilt -= self.ROT_VEL
+    
+    def draw(self,win):
+        # img_count enables us to keep count of
+        # how many times has the bird appeared
+        self.img_count += 1
+
+        if self.img_count < self.ANIMATION_TIME:
+            self.img = self.IMGS[0]
+        elif self.img_count < self.ANIMATION_TIME*2:
+            self.img = self.IMGS[1]
+        elif self.img_count < self.ANIMATION_TIME*3:
+            self.img = self.IMGS[2]
+        elif self.img_count < self.ANIMATION_TIME*4:
+            self.img = self.IMGS[1]
+        elif self.img_count < self.ANIMATION_TIME*4 + 1:
+            self.img = self.IMGS[0]
+            self.img_count = 0
+        
+        if self.tilt <= -80:
+            self.img = self.IMGS[1]
+            self.img_count = self.ANIMATION_TIME*2
+        
+        rotated_image = pygame.transform.rotate(self.img, self.tilt)
+        new_rect = rotated_image.get_rect(center = self.img.get_rect(topleft = (self.x,self.y)).center)
+        win.blit(rotated_image, new_rect.topleft)
+    
+    def get_mask(self):
+        return pygame.mask.from_surface(self.img)
+
+def draw_window(win, bird):
+    win.blit(BG_IMG,(0,0))
+    bird.draw(win)
+    pygame.display.update()
+
+def main():
+    # pass
+    bird = Bird(200,2000)
+    win = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        draw_window(win,bird)
+    
+    pygame.quit()
+    quit()
+
+main()
