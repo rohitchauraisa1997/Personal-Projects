@@ -4,6 +4,7 @@ import random
 import pygame
 import neat
 import os
+# pygame.init()
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 WIN_WIDTH = 600
 WIN_HEIGHT = 800
