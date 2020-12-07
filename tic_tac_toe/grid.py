@@ -12,6 +12,8 @@ class Grid:
     
         self.grid = [[0 for x in range(3)]for y in range(3)]
         self.switch_player = True
+        # search directions N       NW     W      SW     S      SE     E      NE
+        self.search_dirs = [(0,-1),(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1)]
 
     def draw(self,surface):
         for line in self.grid_lines:
@@ -43,8 +45,21 @@ class Grid:
                 self.set_cell_value(x,y,"X")
             elif player == "O":
                 self.set_cell_value(x,y,"O")
+            self.check_grid(x,y,player)
         else:
             self.switch_player = False
+
+    def is_withhin_bounds(self,x,y):
+        return x ==0 and  x<3 and y>=0 and y<3
+    
+    def check_grid(self,x,y,player):
+        count = 1
+        for index, (dirx,diry) in enumerate(self.search_dirs):
+            if self.is_withhin_bounds(x=dirx, y=diry) and self.get_cell_value(x=dirx,y=diry) == player:
+                count += 1
+                xx = x + dirx
+                yy = y + diry
+                # if self.is_withhin_bounds()
 
     def print_grid(self):
         for row in self.grid:
