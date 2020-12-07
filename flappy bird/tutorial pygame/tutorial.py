@@ -1,6 +1,8 @@
 import pygame
 import sys
 import os
+# import os
+# os.environ["SDL_VIDEODRIVER"] = "dummy"
 pygame.init()
 print(sys.path)
 SCREEN_WIDTH = 500
@@ -14,6 +16,8 @@ width = 40
 height = 60
 vel = 5
 
+is_jump = False
+jump_count = 10
 run = True
 
 while run:
@@ -41,7 +45,11 @@ while run:
     if keys[pygame.K_DOWN] and y < SCREEN_HEIGHT-height-vel:
         y += vel
 
+    if keys[pygame.K_SPACE]:
+        is_jump = True
+
     win.fill((0,0,0))
     pygame.draw.rect(win,(255,0,0),(x,y,width,height))
     pygame.display.update()
+
 pygame.quit()
