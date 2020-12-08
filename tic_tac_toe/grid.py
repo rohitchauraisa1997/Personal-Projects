@@ -45,21 +45,84 @@ class Grid:
                 self.set_cell_value(x,y,"X")
             elif player == "O":
                 self.set_cell_value(x,y,"O")
+            # iside if so check_grid only runs when 
+            # get_cell_Value encounters 0
             self.check_grid(x,y,player)
         else:
             self.switch_player = False
 
     def is_withhin_bounds(self,x,y):
-        return x ==0 and  x<3 and y>=0 and y<3
+        return x >=0 and  x<3 and y>=0 and y<3
     
+    # bound_check.png
+    '''
+    considering this location first it goes for N dir
+    since is_within_bounds fails as y=-1
+    then we go for NW direction as y = -1
+    then we go for W direction it is successful as x+dirx = 1
+    '''
     def check_grid(self,x,y,player):
         count = 1
+
         for index, (dirx,diry) in enumerate(self.search_dirs):
-            if self.is_withhin_bounds(x=dirx, y=diry) and self.get_cell_value(x=dirx,y=diry) == player:
+            count = 1
+            # success_implemetation
+            '''
+            considering this image we go through each direction for 
+            X in (0,2) coordinate and when we encounter NE direction 
+            we find with self.get_cell_value == player hence we increase
+            count to 2 similarily in the next nested if count becomes 3
+            '''
+            if self.is_withhin_bounds(x+dirx, y+diry) and self.get_cell_value(x+dirx,y+diry) == player:
+                # increasing count to 2
                 count += 1
                 xx = x + dirx
                 yy = y + diry
-                # if self.is_withhin_bounds()
+                if self.is_withhin_bounds(xx+dirx, yy+diry) and self.get_cell_value(xx+dirx,yy+diry) == player:
+                    # increasing count to 3
+                    count += 1
+                    if count == 3:
+                        break
+                
+                if count < 3: 
+                    # need_to_reverse.png
+                    '''
+                    considering this case we will have count = 3
+                    hence we need to reverse direction.
+                    '''
+                    new_dir = 0
+                    #reverse.png
+                    '''
+                    considering this case we reverse the dir from SW to NE
+                    '''
+                    if index == 0:
+                        new_dir = self.search_dirs
+                        new_dir = self.search_dirs[4] # N to S
+                    elif index == 1:
+                        new_dir = self.search_dirs[5] # NW to SE
+                    elif index == 2:
+                        new_dir = self.search_dirs[6] # W to E
+                    elif index == 3:
+                        new_dir = self.search_dirs[7] # SW to NE
+                    elif index == 4:
+                        new_dir = self.search_dirs[0] # S to N
+                    elif index == 5:
+                        new_dir = self.search_dirs[1] # SE to NW
+                    elif index == 6:
+                        new_dir = self.search_dirs[2] # E to W
+                    elif index == 7:
+                        new_dir = self.search_dirs[3] # NE to SW
+
+                    if self.is_withhin_bounds(x+new_dir[0], y+new_dir[1]) and self.get_cell_value(x+new_dir[0], y=new_dir[1])==player:
+                        count += 1
+                        if count == 3:
+                            break
+                    else:
+                        count = 1
+
+        if count == 3:
+            print(player,"wins")
+            return
 
     def print_grid(self):
         for row in self.grid:
