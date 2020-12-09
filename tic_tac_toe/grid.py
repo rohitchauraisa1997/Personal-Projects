@@ -94,7 +94,6 @@ class Grid:
                 and self.get_cell_value(x + dirx, y + diry) == player
             ):
                 # increasing count to 2
-                print("increase 1")
                 count += 1
                 xx = x + dirx
                 yy = y + diry
@@ -103,7 +102,6 @@ class Grid:
                     and self.get_cell_value(xx + dirx, yy + diry) == player
                 ):
                     # increasing count to 3
-                    print("increase 2")
                     count += 1
                     if count == 3:
                         break
@@ -141,7 +139,6 @@ class Grid:
                         and self.get_cell_value(x + new_dir[0], y+new_dir[1]) == player
                     ):
                         count += 1
-                        print("increase 3")
                         if count == 3:
                             break
                     else:
