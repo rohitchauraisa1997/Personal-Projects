@@ -90,7 +90,7 @@ def print_board_cords(board):
             print((i,j),end = " ")
             if j == len(board) - 1:
                 print("\n")
-
+                
 def execute(board):
     print("\n\n")
     print_sudoku_board(board)
@@ -108,7 +108,7 @@ def execute(board):
     # we return False
     for i in range(1,10):
     # now we check whether adding the number between 1 and 10 works.
-        if validate_entry(board, i, (row,column)):
+        if validate_entry(board,i,(row, column)):    
             board[row][column] = i
             # after we add the number to that row and column and then 
             # recursively call the execute function 
@@ -120,12 +120,7 @@ def execute(board):
     return False
 
 if __name__ == "__main__":
-    print_sudoku_board(sample_board)
+    # print_sudoku_board(sample_board)
     execute(sample_board)
     print("++++++++++++++++++++++++++\n\n\n\n\n\n")
     print_sudoku_board(sample_board)
-    # for i in range(10):
-    #     for j in range(10):
-    #         print((i,j),end = " ")
-    #         if j == 9:
-    #             print("\n")
