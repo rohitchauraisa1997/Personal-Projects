@@ -49,7 +49,9 @@ while run:
         is_jump = True
 
     win.fill((0,0,0))
+    # rect parameters -> surface, color, rect
     pygame.draw.rect(win,(255,0,0),(x,y,width,height))
+    # if we wanna show the change in pygame we need to update the surface/window.
     pygame.display.update()
 
 pygame.quit()
