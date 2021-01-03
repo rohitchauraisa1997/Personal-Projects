@@ -1,6 +1,7 @@
 import math
 import pygame
 from queue import PriorityQueue
+import pretty_errors
 
 WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH,WIDTH))
@@ -17,6 +18,7 @@ ORANGE = (255, 165 ,0)
 GREY = (128, 128, 128)
 TURQUOISE = (64, 224, 208)
 # astar_algo.png
+# a_starexplaination_of_heuristic_logic.png
 
 class Spot:
     """
@@ -63,7 +65,7 @@ class Spot:
         return self.color == PURPLE
     
     def reset(self):
-        self.color == WHITE
+        self.color = WHITE
         
     def make_open(self):
         self.color = GREEN
@@ -78,8 +80,11 @@ class Spot:
         self.color = PURPLE
     
     def draw(self,win):
-        pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self,width))
+        pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.width))
         
+    def make_start(self):
+        self.color = ORANGE
+    
     def update_neighbor(self,grid):
         pass
     
@@ -124,3 +129,68 @@ def draw(win, grid, rows, width):
 
 	draw_grid(win, rows, width)
 	pygame.display.update()
+
+def get_pos_clicked(pos, rows, width):
+    # tells the position of the spot that got clicked.
+    gap = width // rows
+    y,x = pos
+    
+    row = y // gap
+    col = x // gap
+    return row, col
+
+def main(win, width):
+    ROWS = 50
+    grid = make_grid(ROWS, width)
+    
+    start = None
+    end = None
+    
+    run = True
+    started = False
+    
+    while run:
+        draw(win,grid,ROWS,width)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                
+            if started:
+                # prohibits user from doing anything 
+                # once the a star algo starts running.
+                continue
+            
+            # Left Mouse Button
+            if pygame.mouse.get_pressed()[0]:
+                pos = pygame.mouse.get_pos()
+                row,col = get_pos_clicked(pos,ROWS,width)
+                spot = grid[row][col]
+                if not start and spot != end:
+                    start = spot
+                    start.make_start()
+                    
+                elif not end and spot != start:
+                    end = spot
+                    end.make_end()
+                
+                # making barriers
+                elif spot != end and spot != start:
+                    spot.make_barrier()
+                    
+            # Right Mouse Button
+            elif pygame.mouse.get_pressed()[2]:
+                # print("abc")
+                pos = pygame.mouse.get_pos()
+                row,col = get_pos_clicked(pos,ROWS,width)
+                spot = grid[row][col]
+                spot.reset()
+                if spot == start:
+                    start = None
+                elif spot == end:
+                    end = None
+                
+            
+    pygame.quit()
+    
+if __name__ == "__main__":
+    main(WIN,WIDTH)
