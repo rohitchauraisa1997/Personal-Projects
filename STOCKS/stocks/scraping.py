@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 check = True
 st_time = time.time()
 while check:
-    if time.time() - st_time > 10:
+    if time.time() - st_time > 2:
         print("exiting")
         check = False
     stockcode = "PIIND"
@@ -31,6 +31,7 @@ while check:
     # print(data_array)
     data_array = json.loads(data_array)
     # print(type(data_array))
-    # pprint(data_array)
-    # print("*"*40)
+    pprint(data_array)
+    print("*"*40)
     pprint(data_array["data"][0]["lastPrice"])
+    pprint(data_array["data"][0]["basePrice"])
