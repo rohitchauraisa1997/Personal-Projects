@@ -3,6 +3,7 @@
 1. Sudoku Solver
 
 2. Tic Tac Toe
+
 ![image](https://user-images.githubusercontent.com/67869038/139529863-fc3cbfa7-1e36-4261-b75f-f0553e29757a.png)
 
 
